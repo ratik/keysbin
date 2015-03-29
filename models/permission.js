@@ -21,7 +21,7 @@ function PermissionModel() {
     });
 }
 
-util.inherits(PermissionModel, _model.Model);
+util.inherits(PermissionModel, _model);
 
 PermissionModel.prototype.add = function(uid, uid2, key, cb) {
     var self=this;

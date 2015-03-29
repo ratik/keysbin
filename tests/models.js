@@ -1,5 +1,5 @@
 var assert = require("assert");
-var userModel = require('./../models/user.js').i();
+var userModel = require('./../models/user.js');
 var permissionModel = require('./../models/permission.js').i();
 var dataModel = require('./../models/data.js').i();
 var expect = require('chai').expect;
@@ -30,7 +30,7 @@ describe('UserModel', function() {
     });
     it('should fail on dups', function(done) {
         userModel.add(k, puK, prK, function(err, out) {
-            expect(err).to.be.a('object');
+            expect(out).to.equal(null);
             expect(err.code).to.equal(-1);
             done();
         });

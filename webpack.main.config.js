@@ -6,17 +6,16 @@ var webpack = require('webpack'),
 module.exports = {
     cache: true,
     entry: {
-        'main': ['main'], // Contains app code
-        'libs': 'libs' // Contains all libraries
+        'main': ['main'],
+        'libs': 'libs'
     },
     output: {
         path: path.join(__dirname, 'public'),
         publicPath: '/',
-        filename: 'js/[name].bundle.js',
+        filename: 'js/[name].js',
         chunkFilename: 'js/[chunkhash].[id].js'
     },
     module: {
-        // loaders list http://webpack.github.io/docs/list-of-loaders.html
         loaders: [{
                 test: /\.json$/,
                 loader: "json-loader"
@@ -24,7 +23,6 @@ module.exports = {
                 test: /\.css$/,
                 loader: ExtractTextPlugin.extract("style-loader", "css-loader")
             },
-            //      { test: /\.css$/, loader: "style!css" },
             {
                 test: /\.(png|jpg|gif|woff2|woff|eot|ttf|svg)$/,
                 loader: "file-loader?name=assets/[hash].[ext]"
@@ -53,29 +51,17 @@ module.exports = {
             'node_modules'
         ]
     },
-    node: {
-        fs: "empty"
+    externals: {
+        'node-localstorage': true,
+        'crypto': true,
+        'openpgp': true
     },
     plugins: [
-            new webpack.optimize.CommonsChunkPlugin( /* chunkName= */ "libs", /* filename= */ "js/libs.bundle.js"),
+            new webpack.optimize.CommonsChunkPlugin( /* chunkName= */ "libs", /* filename= */ "js/libs.js", Infinity),
             new ExtractTextPlugin("assets/[name].css"),
             new webpack.ProvidePlugin({
                 $: "jquery",
-                jQuery: "jquery",
-                _crypto: "crypto"
+                jQuery: "jquery"
             })
         ]
-        /*,
-        plugins: [
-            new webpack.ResolverPlugin(
-                    new webpack.ResolverPlugin.DirectoryDescriptionFilePlugin(
-                            'bower.json', ['main'])
-                    ),
-            new HtmlWebpackPlugin({
-                filename: 'index.html',
-                pkg: require('./package.json'),
-                title: '',
-                template: './src/index.html'
-            })
-        ]/**/
 };

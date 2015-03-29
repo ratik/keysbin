@@ -4,12 +4,13 @@ require('index.html');
 require('bootstrap_npm/css/bootstrap.min.css');
 require('./style/main.css');
 require('./controllers/_index');
+require('./services/_index');
 
 angular.element(document).ready(function() {
     var requires = [
         'ui.router',
-        'app.controllers'//,
-        // 'app.services',
+        'app.controllers',
+        'app.services'//,
         // 'app.directives'
     ];
 

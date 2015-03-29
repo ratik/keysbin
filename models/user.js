@@ -1,6 +1,7 @@
 var _model = require('./_model');
 var util = require('util');
-var crypto = require('crypto');
+var ObjectID = require('mongodb').ObjectID;
+
 
 
 function UserModel() {
@@ -22,24 +23,17 @@ function UserModel() {
     });
 }
 
-util.inherits(UserModel, _model.Model);
+util.inherits(UserModel, _model);
 
-UserModel.prototype.add = function(uid, pub, priv, cb) {
-    var self = this;
-    this.get(uid, function(err, one) {
-        if (one) {
-            cb({
-                code: -1,
-                msg: 'user exists'
-            });
-            return;
-        }
-        self.col.insert({
-            uid: uid,
-            pub: pub,
-            priv: priv,
-            salt: crypto.pseudoRandomBytes(64).toString('hex')
-        }, cb);
+UserModel.prototype.add = function(uid, seed, hotp, priv, pub, cb) {
+    this.col.insert({
+        uid: uid,
+        seed: seed,
+        hotp: hotp,
+        pub: pub,
+        priv: priv
+    }, function(err, ok) {
+        cb(err, ok);
     });
 }
 
@@ -47,7 +41,7 @@ UserModel.prototype.get = function(uid, cb) {
     this.col.findOne({
             uid: uid
         }, {
-            fields: ['uid','priv','salt']
+            fields: ['uid', 'priv', 'seed', 'pub', 'hotp']
         },
         cb);
 }
@@ -65,9 +59,4 @@ UserModel.prototype.remove = function(uid, cb) {
     }, cb);
 }
 
-module.exports = {
-    i: function() {
-        return new UserModel;
-    },
-    c: UserModel
-};
+module.exports = UserModel;

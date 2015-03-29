@@ -1,0 +1,21 @@
+{
+  "name": "keysbin",
+  "main": "index.js",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ratik/keysbin",
+  "authors": [
+    "Sergey Ratiashvili <serg.s.r@gmail.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "openpgp": "~0.8.1"
+  }
+}

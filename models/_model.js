@@ -21,4 +21,4 @@ util.inherits(Model, events.EventEmitter);
 Model.prototype._id = function(obj) {
     return JSON.stringify(obj);
 };
-exports.Model = Model;
+module.exports = Model;

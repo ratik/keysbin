@@ -1,21 +1,31 @@
 <div>
     <div class="col-md-6">
         <h1>Login here</h1>
-        <form ng-submit="login()" name="login_form">
+        <form ng-submit="login(login_form)" name="login_form">
             <div class="form-group" ng-class="{'has-error': login_form.uid.$dirty && login_form.uid.$invalid}">
                 <label for="InputEmail1">Email address</label>
-                <input ng-model="uid" ng-minlength="3" type="email" name="uid" class="form-control" id="InputEmail1" placeholder="Enter email">
+                <input ng-model="login.uid" ng-minlength="3" type="email" name="uid" class="form-control" id="InputEmail1" placeholder="Enter email">
             </div>
             <div class="form-group">
                 <label for="InputPassword1">Password</label>
-                <input ng-model="password" ng-minlength="6" type="password" class="form-control" id="InputPassword1" placeholder="Password">
+                <input ng-model="login.password" ng-minlength="6" type="password" class="form-control" id="InputPassword1" placeholder="Password">
             </div>
-            <button type="submit" class="btn btn-default">Submit</button>
+            <div class="form-group">
+                <label for="otp1">Your OTP key</label>
+                <input ng-model="login.otp" ng-minlength="6" type="otp" class="form-control" id="otp1" placeholder="OTP key">
+            </div>
+            <div>
+                <button type="submit" class="btn btn-default" ng-disabled="logging">{{logging?'Loging...':'Login'}}</button>
+            </div>
+            <br />
+            <div class="alert alert-danger" role="alert" ng-show="login_error">
+                Error! {{login_error_msg}}
+            </div>
         </form>
     </div>
     <div class="col-md-6">
         <h1>Or Register here</h1>
-        <form name="signup_form" ng-submit="register(signup_form)">
+        <form name="signup_form" ng-submit="register(signup_form)" ng-show="!code">
             <div class="form-group" ng-class="{'has-error': signup_form.uid.$dirty && signup_form.uid.$invalid}">
                 <label for="InputEmail1">Email address</label>
                 <input ng-model="signup.uid" required type="email" class="form-control" id="InputEmail1" name="uid" placeholder="Enter email">
@@ -32,7 +42,18 @@
             <button type="submit" class="btn btn-default">Register</button>
         </form>
         <br />
-        <div ng-show="code">
+
+        <div class="progress" ng-show="saving">
+            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100" style="width: 45%">
+                <span class="sr-only">Saving...</span>
+            </div>
+        </div>
+
+        <div class="alert alert-danger" role="alert" ng-show="error">
+            Error! {{error_msg}}
+        </div>
+
+        <div ng-show="code && !saving && !error">
             <div class="col-md-6">
                 <h5>Scan it with Google Authentificator or any other OTP app</h5>
                 <div ng-bind-html="svg"></div>
@@ -42,5 +63,4 @@
             </div>
         </div>
     </div>
-    {{code}}
 </div>

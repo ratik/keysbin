@@ -13,4 +13,4 @@ Controller.prototype.checkMethodIsAllowed = function(method, fnName) {
     return this.methodMap[fnName] ? this.methodMap[fnName].indexOf(method) !== -1 : false;
 };
 
-exports.Controller = Controller;
+module.exports = Controller;

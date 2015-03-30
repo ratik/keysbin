@@ -1,7 +1,9 @@
 var webpack = require('webpack'),
     path = require('path'),
     HtmlWebpackPlugin = require('html-webpack-plugin'),
-    ExtractTextPlugin = require("extract-text-webpack-plugin");;
+    ExtractTextPlugin = require("extract-text-webpack-plugin"),
+    ngAnnotatePlugin = require('ng-annotate-webpack-plugin');
+
 
 module.exports = {
     cache: true,
@@ -59,9 +61,11 @@ module.exports = {
     plugins: [
             new webpack.optimize.CommonsChunkPlugin( /* chunkName= */ "libs", /* filename= */ "js/libs.js", Infinity),
             new ExtractTextPlugin("assets/[name].css"),
+	    new ngAnnotatePlugin({add: true}),
             new webpack.ProvidePlugin({
                 $: "jquery",
                 jQuery: "jquery"
             })
+	    ,new webpack.optimize.UglifyJsPlugin({minimize: true,mangle:true,comments:false})
         ]
 };

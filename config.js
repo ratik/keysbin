@@ -4,16 +4,9 @@ module.exports = {
         port: 27017,
         db: 'pwmgr'
     },
-    'params': {
-        'uid': {
-            max: 300,
-            min: 5,
-            rules:['isEmail']
-        },
-        'uid2': {
-            max: 300,
-            min: 5,
-            rules:['isEmail']
-        }
+    'http': {
+        host: '0.0.0.0',
+        port: 80,
+        static: false
     }
 }

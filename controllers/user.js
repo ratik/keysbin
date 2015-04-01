@@ -31,7 +31,6 @@ UserController.prototype.index = function(req, res, next) {
                     });
                     return;
                 }
-                console.log(one)
                 if (null === one) {
                     res.json({
                         err:2,
@@ -39,7 +38,7 @@ UserController.prototype.index = function(req, res, next) {
                     });
                     return;
                 }
-                if (1 || notp.totp.verify(req.query.otp, base32.decode(one.hotp))) { //TODO:remove
+                if (notp.totp.verify(req.query.otp, base32.decode(one.hotp))) {
                     delete one.hotp;
                     res.json({
                         ok: 1,
@@ -55,7 +54,13 @@ UserController.prototype.index = function(req, res, next) {
             return;
             break;
         case 'PUT':
-            //TODO: add validation
+            if (!req.body.uid || !validator.isEmail(req.body.uid)) {
+                res.json({
+                    error: 1,
+                    msg: 'Uid wrong'
+                });
+                return;
+            }
             userModel.add(req.body.uid, req.body.seed, req.body.hotp, req.body.priv, req.body.pub, function(err, one) {
                 if (err !== null) {
                     if (err.code === 11000) {

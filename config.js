@@ -5,8 +5,8 @@ module.exports = {
         db: 'pwmgr'
     },
     'http': {
-        host: '0.0.0.0',
-        port: 80,
-        static: false
+	host: '0.0.0.0',
+	port: 80,
+	static: true
     }
 }
